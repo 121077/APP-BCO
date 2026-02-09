@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>BCO – Inteligência dos Dois Dados</title>
+
+<style>
+body {
+  font-family: Arial;
+  background: #111;
+  color: #fff;
+  padding: 20px;
+}
+h1 {
+  text-align: center;
+  color: #00ffcc;
+}
+button {
+  font-size: 18px;
+  padding: 10px 20px;
+  margin: 10px 0;
+}
+.box {
+  background: #1e1e1e;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 15px;
+}
+.hot { color: #ff5555; }
+.cold { color: #5599ff; }
+.neutral { color: #cccccc; }
+</style>
+
+</head>
+<body>
+
+<h1>BCO – Inteligência dos Dois Dados</h1>
+
+<button onclick="jogar()">🎲 Jogar Dados</button>
+
+<div class="box">
+  <p>Dado 1: <b id="d1">-</b></p>
+  <p>Dado 2: <b id="d2">-</b></p>
+  <p>Soma: <b id="soma">-</b></p>
+</div>
+
+<div class="box">
+  <h3>Mapa Mental das Somas</h3>
+  <div id="mapa"></div>
+</div>
+
+<div class="box">
+  <h3>Consciência do Jogo</h3>
+  <p id="mensagem">Jogue e observe sem expectativa.</p>
+</div>
+
+<script>
+let dados = JSON.parse(localStorage.getItem("dadosBCO")) || {
+  total: 0,
+  soma: {2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0,10:0,11:0,12:0}
+};
+
+function jogar() {
+  let d1 = Math.floor(Math.random()*6)+1;
+  let d2 = Math.floor(Math.random()*6)+1;
+  let s = d1+d2;
+
+  dados.total++;
+  dados.soma[s]++;
+
+  document.getElementById("d1").innerText = d1;
+  document.getElementById("d2").innerText = d2;
+  document.getElementById("soma").innerText = s;
+
+  localStorage.setItem("dadosBCO", JSON.stringify(dados));
+  atualizarMapa();
+  consciencia(s);
+}
+
+function atualizarMapa() {
+  let html = "";
+  for(let i=2;i<=12;i++){
+    let esperado = dados.total * prob(i);
+    let real = dados.soma[i];
+    let classe = "neutral";
+
+    if(real > esperado * 1.2) classe = "hot";
+    if(real < esperado * 0.8) classe = "cold";
+
+  <style>
+body { font-family: Arial; background: #111; color: #fff; padding: 20px; }
+h1 { text-align: center; color: #00ffcc; }
+button { font-size: 18px; padding: 10px 20px; margin: 10px 0; cursor:pointer; }
+.box { background: #1e1e1e; padding: 15px; border-radius: 8px; margin-top: 15px; }
+.hot { color: #ff5555; }
+.cold { color: #5599ff; }
+.neutral { color: #cccccc; }
+.hist { margin-top: 10px; font-size: 16px; }
+.bar { display: inline-block; height: 15px; margin: 2px; border-radius:4px; background: #00ffcc; }
+input { font-size:16px; padding:5px; margin-top:5px; width:200px; }
+</style>
+</head>
+<body>
+
+<h1>BCO – App Inovador Completo</h1>
+
+<p>Digite seu nome:</p>
+<input type="text" id="nomeUsuario" placeholder="Seu nome">
+<button onclick="confirmarNome()">OK</button>
+
+<div class="box">
+  <p id="saudacao"></p>
+</div>
+
+<button onclick="jogar()" id="btnJogar" style="display:none;">🎲 Jogar Dados</button>
+<button onclick="limpar()" style="display:none;" id="btnLimpar">♻ Limpar Histórico</button>
+
+<div class="box">
+  <p>Dado 1: <b id="d1">-</b></p>
+  <p>Dado 2: <b id="d2">-</b></p>
+  <p>Soma: <b id="soma">-</b></p>
+</div>
+
+<div class="box">
+  <h3>Mapa de Frequência das Somas</h3>
+  <div id="mapa"></div>
+</div>
+
+<div class="box">
+  <h3>Histórico das Últimas Jogadas</h3>
+  <div id="historico" class="hist"></div>
+</div>
+
+<div class="box">
+  <h3>Consciência do Jogo</h3>
+  <p id="mensagem">Jogue e observe sem expectativa.</p>
+</div>
+
+<script>
+let dados = JSON.parse(localStorage.getItem("dadosBCO")) || {
+  total:0, soma:{2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0,10:0,11:0,12:0}, historico:[], nome:""
+};
+
+function confirmarNome(){
+  let nome = document.getElementById("nomeUsuario").value.trim();
+  if(nome=="") { alert("Digite seu nome"); return; }
+  dados.nome = nome;
+  localStorage.setItem("dadosBCO", JSON.stringify(dados));
+  document.getElementById("saudacao").innerText = `Oi, ${nome}! Bem-vindo ao app BCO.`;
+  document.getElementById("btnJogar").style.display="inline-block";
+  document.getElementById("btnLimpar").style.display="inline-block";
+  document.getElementById("nomeUsuario").style.display="none";
+  event.target.style.display="none";
+}
+
+function jogar() {
+  let d1 = Math.floor(Math.random()*6)+1;
+  let d2 = Math.floor(Math.random()*6)+1;
+  let s = d1+d2;
+
+  dados.total++;
+  dados.soma[s]++;
+  dados.historico.unshift(`Dado1:${d1} Dado2:${d2} Soma:${s}`);
+  if(dados.historico.length>20) dados.historico.pop();
+
+  document.getElementById("d1").innerText=d1;
+  document.getElementById("d2").innerText=d2;
+  document.getElementById("soma").innerText=s;
+
+  localStorage.setItem("dadosBCO", JSON.stringify(dados));
+  atualizarMapa();
+  atualizarHistorico();
+  consciencia(s);
+}
+
+function atualizarMapa(){
+  let html="";
+  for(let i=2;i<=12;i++){
+    let esperado=dados.total*prob(i);
+    let real=dados.soma[i];
+    let classe="neutral";
+    if(real>esperado*1.2) classe="hot";
+    if(real<esperado*0.8) classe="cold";
+    let largura = Math.min(100, Math.floor((real/dados.total)*500));
+    html+=`Soma ${i}: ${real} <div class="bar ${classe}" style="width:${largura}px"></div><br>`;
+  }
+  document.getElementById("mapa").innerHTML=html;
+}
+
+function atualizarHistorico(){
+  document.getElementById("historico").innerHTML=dados.historico.join("<br>");
+}
+
+function consciencia(s){
+  let msg="Resultado independente. Nada está sendo preparado.";
+  if(s==7) msg=`O 7 é comum por probabilidade, ${dados.nome}, não por sorte.`;
+  if(dados.total>30) msg="Sequências enganam o cérebro humano.";
+  document.getElementById("mensagem").innerText=msg;
+}
+
+function prob(n){
+  let p={2:1,3:2,4:3,5:4,6:5,7:6,8:5,9:4,10:3,11:2,12:1};
+  return p[n]/36;
+}
+
+function limpar(){
+  if(confirm("Tem certeza que quer limpar o histórico?")){
+    dados={total:0,soma:{2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0,10:0,11:0,12:0},historico:[],nome:dados.nome};
+    localStorage.setItem("dadosBCO",JSON.stringify(dados));
+    atualizarMapa();
+    atualizarHistorico();
+    document.getElementById("d1").innerText="-";
+    document.getElementById("d2").innerText="-";
+    document.getElementById("soma").innerText="-";
+    document.getElementById("mensagem").innerText="Jogue e observe sem expectativa.";
+  }
+}
+
+atualizarMapa();
+atualizarHistorico();
+if(dados.nome!="") {
+  document.getElementById("saudacao").innerText=`Oi, ${dados.nome}! Bem-vindo ao app BCO.`;
+  document.getElementById("btnJogar").style.display="inline-block";
+  document.getElementById("btnLimpar").style.display="inline-block";
+  document.getElementById("nomeUsuario").style.display="none";
+}
+</script>
+
+</body>
+</html>
